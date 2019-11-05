@@ -1,0 +1,17 @@
+.vs/*
+Library/*
+Library
+Logs/*
+obj/*
+Packages/*
+Temp/*
+
+!.gitignore
+!Assets/
+!ProjectSettings/
+
+*.csproj
+*.csproj.meta
+*.sln
+*.sln.meta
+*.suo
