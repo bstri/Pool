@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float Speed = 10;
+    public float Speed;
     private Rigidbody body;
-    private bool CanMove = true;
+    private bool CanMove = false;
+    private float maxGuideLength = 6;
+
+    public GameObject guide;
+    public Camera cam;
 
     // Start is called before the first frame update
     void Start()
@@ -14,21 +18,21 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody>();
     }
 
-    // FixedUpdate runs once before each tick of the physics system.
-    void FixedUpdate()
+    private void Update()
     {
-        float horizontalMovement = Input.GetAxis("Horizontal");
-        float verticalMovement = Input.GetAxis("Vertical");
-        if (horizontalMovement == 0 && verticalMovement == 0)
+        if (CanMove)
         {
-            CanMove = true;
+            // draw guide
+            Ray ray = cam.
+
+
+            // receive mouse click
+            if (Input.GetMouseButtonDown(0))
+            {
+                body.AddForce(new Vector3(horizontalMovement, 0, verticalMovement) * Speed, ForceMode.Impulse);
+                CanMove = false;
+
+            }
         }
-        else if (CanMove)
-        {
-            CanMove = false;
-            body.AddForce(new Vector3(horizontalMovement, 0, verticalMovement)*Speed, ForceMode.Impulse);
-        }
-        else
-            return;
     }
 }

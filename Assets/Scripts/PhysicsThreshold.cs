@@ -6,6 +6,9 @@ public class PhysicsThreshold : MonoBehaviour
 {
     List<Rigidbody> rigidBodies;
 
+    public float speedThreshold = .1F;
+    //public float spinThreshold = 5;
+
 
     // Start is called before the first frame update
     void Start()
@@ -13,9 +16,14 @@ public class PhysicsThreshold : MonoBehaviour
         rigidBodies = new List<Rigidbody>(GameObject.FindObjectsOfType<Rigidbody>());
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        foreach(var rb in rigidBodies)
+        {
+            if(rb.velocity.magnitude < speedThreshold)
+            {
+                rb.velocity = new Vector3();
+            }
+        }
     }
 }
