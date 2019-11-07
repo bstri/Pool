@@ -5,6 +5,7 @@ using UnityEngine;
 public class PhysicsThreshold : MonoBehaviour
 {
     List<Rigidbody> rigidBodies;
+    public PlayerController controller;
 
     public float speedThreshold = .1F;
     //public float spinThreshold = 5;
@@ -18,12 +19,24 @@ public class PhysicsThreshold : MonoBehaviour
 
     void FixedUpdate()
     {
+        bool stillMoving = false;
         foreach(var rb in rigidBodies)
         {
             if(rb.velocity.magnitude < speedThreshold)
             {
                 rb.velocity = new Vector3();
+            } else
+            {
+                stillMoving = true;
             }
+        }
+
+        if (!stillMoving)
+        {
+            controller.CanMove = true;
+        } else
+        {
+            controller.CanMove = false;
         }
     }
 }
