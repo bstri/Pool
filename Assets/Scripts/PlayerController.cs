@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private LineRenderer line;
     public GameObject Guide;
     public Camera cam;
+    public GameObject cueGhost;
 
     private bool debounce = false;
 
@@ -55,6 +56,12 @@ public class PlayerController : MonoBehaviour
             line.SetPosition(0, transform.position);
             line.SetPosition(1, transform.position + normalGuide*guideLen);
 
+            // draw ghost cue
+            RaycastHit cueHit;
+            Physics.SphereCast(transform.position, .5f, normalGuide, out cueHit, 100, ~LayerMask.GetMask(new string[] { "Plane", "Ignore Raycast" }));
+            cueGhost.SetActive(true);
+            cueGhost.transform.position = transform.position + normalGuide * cueHit.distance;
+
             // receive mouse click
             if (Input.GetMouseButtonDown(0))
             {
@@ -64,6 +71,7 @@ public class PlayerController : MonoBehaviour
         } else
         {
             line.enabled = false;
+            cueGhost.SetActive(false);
             if(!CanMove)
             {
                 debounce = false;
