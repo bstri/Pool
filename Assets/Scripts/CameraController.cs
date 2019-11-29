@@ -4,20 +4,34 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    // The distance between the camera and the player object.
-    private Vector3 offset;
-    private GameObject player;
+    public Transform target;
 
-    // Start is called before the first frame update.
-    void Start()
+    public Vector3 offset;
+
+    private float currentZoom = 10f;
+    public float zoomSpeed = 4f;
+    public float minZoom = 5f;
+    public float maxZoom = 15f;
+
+    public float yawSpeed = 100f;
+    private float yawInput = 0f;
+
+    public float pitch = 2f;
+
+    private void Update()
     {
-        player = GameObject.Find("Player");
-        offset = transform.position - player.transform.position;
+        currentZoom -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
+        currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
+
+        yawInput -= Input.GetAxis("Horizontal") * yawSpeed * Time.deltaTime;
     }
 
-    // LateUpdate is called after Update but before rendering the frame.
+    // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = player.transform.position + offset;
+        transform.position = target.position - offset * currentZoom;
+        transform.LookAt(target.position + target.up * pitch);
+
+        transform.RotateAround(target.position, Vector3.up, yawInput);
     }
 }

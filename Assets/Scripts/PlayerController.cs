@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
 
     private bool debounce = false;
 
+    private LevelController level;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
         powerSlope = (maxPower - minPower) / (maxGuideLength - minGuideLength);
         powerIntercept = minPower - minGuideLength * powerSlope;
+
+        level = GameObject.FindObjectOfType<LevelController>();
     }
 
     private void Update()
@@ -65,6 +69,7 @@ public class PlayerController : MonoBehaviour
             // receive mouse click
             if (Input.GetMouseButtonDown(0))
             {
+                level.ShootCue();
                 body.AddForce(normalGuide * (guideLen*powerSlope + powerIntercept), ForceMode.Impulse);
                 debounce = true;
             }
